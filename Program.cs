@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
 using Project1.DbContextes;
 using Project1.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-
+builder.Services.AddDbContext<LibraryDB>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -14,133 +15,118 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/v1/Employees/create", (Employee employee) =>
+app.MapPost("api/v1/Employees/create", ([FromBody] Employee employee, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     db.Employees.Add(employee);
     db.SaveChanges();
-    return "Employee Created";
+    return new { Message = "Employee Created" };
 });
-app.MapGet("api/v1/Employees/list", () =>
+app.MapGet("api/v1/Employees/list", ([FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     return db.Employees.ToList();
 });
-app.MapPut("api/v1/Employees/update/{id}", (int id, Employee employee) =>
+app.MapPut("api/v1/Employees/update/{id}", ([FromRoute] int id, [FromBody] Employee employee, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var e = db.Employees.Find(id);
     if (e == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     e.PhoneNumber = employee.PhoneNumber;
     db.SaveChanges();
-    return "Employee updated!";
+    return new { Message = "Employee updated!" };
 });
-app.MapDelete("api/v1/Employees/remove/{id}", (int id) =>
+app.MapDelete("api/v1/Employees/remove/{id}", ([FromRoute] int id, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var employee = db.Employees.Find(id);
     if (employee == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     db.Employees.Remove(employee);
     db.SaveChanges();
-    return "Employee Removed!";
+    return new { Message = "Employee Removed!" };
 });
-app.MapPost("api/v1/Drivers/create", (Driver driver) =>
+app.MapPost("api/v1/Drivers/create", ([FromBody] Driver driver, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     db.Drivers.Add(driver);
     db.SaveChanges();
-    return "Driver Created";
+    return new { Message = "Driver Created" };
 });
-app.MapGet("api/v1/Drivers/list", () =>
+app.MapGet("api/v1/Drivers/list", ([FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     return db.Drivers.ToList();
 });
-app.MapPut("api/v1/Drivers/update/{id}", (int id, Driver driver) =>
+app.MapPut("api/v1/Drivers/update/{id}", ([FromRoute] int id, [FromBody] Driver driver, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var d = db.Drivers.Find(id);
     if (d == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     d.PhoneNumber = driver.PhoneNumber;
     db.SaveChanges();
-    return "Driver updated!";
+    return new { Message = "Driver updated!" };
 });
-app.MapDelete("api/v1/Drivers/remove/{id}", (int id) =>
+app.MapDelete("api/v1/Drivers/remove/{id}", ([FromRoute] int id, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var driver = db.Drivers.Find(id);
     if (driver == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     db.Drivers.Remove(driver);
     db.SaveChanges();
-    return "Driver Removed!";
+    return new { Message = "Driver Removed!" };
 });
-app.MapPost("api/v1/Cooperatives/create", (Cooperative cooperative) =>
+app.MapPost("api/v1/Cooperatives/create", ([FromBody] Cooperative cooperative, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     db.Cooperatives.Add(cooperative);
     db.SaveChanges();
-    return "Cooperative Created";
+    return new { Message = "Cooperative Created" };
 });
-app.MapGet("api/v1/Cooperatives/list", () =>
+app.MapGet("api/v1/Cooperatives/list", ([FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     return db.Cooperatives.ToList();
 });
-app.MapPut("api/v1/Cooperatives/update/{id}", (int id, Cooperative cooperative) =>
+app.MapPut("api/v1/Cooperatives/update/{id}", ([FromRoute] int id, [FromBody] Cooperative cooperative, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var c = db.Cooperatives.Find(id);
     if (c == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     c.PhoneNumber = cooperative.PhoneNumber;
     db.SaveChanges();
-    return "Cooperative updated!";
+    return new { Message = "Cooperative updated!" };
 });
-app.MapDelete("api/v1/Cooperatives/remove/{id}", (int id) =>
+app.MapDelete("api/v1/Cooperatives/remove/{id}", ([FromRoute] int id, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var cooperative = db.Cooperatives.Find(id);
     if (cooperative == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     db.Cooperatives.Remove(cooperative);
     db.SaveChanges();
-    return "Cooperative Removed!";
+    return new { Message = "Cooperative Removed!" };
 });
-app.MapPost("api/v1/Passengers/create", (Passenger passenger) =>
+app.MapPost("api/v1/Passengers/create", ([FromBody] Passenger passenger, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     db.Passengers.Add(passenger);
     db.SaveChanges();
-    return "Passenger Created";
+    return new { Message = "Passenger Created" };
 });
-app.MapGet("api/v1/Passengers/list", () =>
+app.MapGet("api/v1/Passengers/list", ([FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     return db.Passengers.ToList();
 });
-app.MapPut("api/v1/Passenges/update/{id}", (int id, Passenger passenger) =>
+app.MapPut("api/v1/Passenges/update/{id}", ([FromRoute] int id, [FromBody] Passenger passenger, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var p = db.Passengers.Find(id);
     if (p == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     p.Firstname = passenger.Firstname;
     p.Lastname = passenger.Lastname;
@@ -148,19 +134,18 @@ app.MapPut("api/v1/Passenges/update/{id}", (int id, Passenger passenger) =>
     p.Email = passenger.Email;
     p.PhoneNumber = passenger.PhoneNumber;
     db.SaveChanges();
-    return "Passenger updated!";
+    return new { Message = "Passenger updated!" };
 });
-app.MapDelete("api/v1/Passengers/remove/{id}", (int id) =>
+app.MapDelete("api/v1/Passengers/remove/{id}", ([FromRoute] int id, [FromServices] LibraryDB db) =>
 {
-    using var db = new LibraryDB();
     var passenger = db.Passengers.Find(id);
     if (passenger == null)
     {
-        return "Not found!";
+        return new { Message = "Not found!" };
     }
     db.Passengers.Remove(passenger);
     db.SaveChanges();
-    return "Passenger Removed!";
+    return new { Message = "Passenger Removed!" };
 });
 
 app.Run();
