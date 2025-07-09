@@ -1,0 +1,35 @@
+namespace Project1.Enums
+{
+    public enum Routes
+    {
+        Tabriz,
+        Ardebil,
+        Esfehan,
+        Karaj,
+        Eilam,
+        Boshehr,
+        Tehran,
+        Mashhad,
+        Ahvaz,
+        Abadan,
+        Zanjan,
+        Semnan,
+        Qazvin,
+        Kerman,
+        Kermanshah,
+        Gorgan,
+        Rasht,
+        Chaloos,
+        Arak,
+        BandarAbas,
+        Hamedan,
+        Malayer,
+        Nahavand,
+        Toiserkan,
+        AsadAbad,
+        Bahar,
+        Razan,
+        Famenin,
+       Yazd
+    }
+}
